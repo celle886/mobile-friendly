@@ -58,7 +58,14 @@ class MobileFriendly {
       console.log(`Checking site ${this.url} ...`);
 
       request.post(options, (err, data) => {
-        const body = JSON.parse(data.body);
+        try {
+          const body = JSON.parse(data.body);
+        } catch (e) {
+          if (!err) {
+            err = e;
+          }
+        }
+
         if (err || body.error)
           return reject(err || new Error(body.error.message));
 
